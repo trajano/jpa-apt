@@ -1,0 +1,67 @@
+<%@ jet class="TableModelGenerator" package="net.trajano.apt.jpa.internal" %>
+<% MetaTableModel meta = (MetaTableModel)argument; %> 
+package <%=meta.getPackageName()%>;
+
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
+import javax.persistence.PersistenceContext;
+
+/**
+ * SLSB to manage {@link <%=meta.getEntityClassName()%>} using the table model design pattern.
+ */
+@Stateless
+public class <%=meta.getClassName()%> {
+    /**
+     * Entity manager.
+     */
+    @PersistenceContext
+    private EntityManager em;
+
+    /**
+     * Gets a specific record.
+     * 
+     * @param id
+     *            primary key
+     * @return persisted bean
+     */
+    public <%=meta.getEntityClassName()%> get(final Object id) {
+        return em.find(<%=meta.getEntityClassName()%>.class, id);
+    }
+
+    /**
+     * Save, flush and refresh a persisted bean. The flush and refreshing is
+     * needed to ensure that the temporal data contains the proper values.
+     * 
+     * @param bean
+     *            bean to persist.
+     */
+    public void save(final <%=meta.getEntityClassName()%> bean) {
+        em.persist(bean);
+        em.flush();
+        em.refresh(bean);
+    }
+
+    /**
+     * Removes the bean from the persistence.
+     * 
+     * @param bean
+     *            bean to remove.
+     */
+    public void remove(final <%=meta.getEntityClassName()%> bean) {
+        em.persist(bean);
+        em.flush();
+    }
+
+    /**
+     * Injects the entity manager for testing.
+     * 
+     * @param entityManager
+     *            entity manager.
+     */
+    public void setEntityManager(final EntityManager entityManager) {
+        em = entityManager;
+    }
+}
