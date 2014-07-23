@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>EntityProcessor.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JPA Annotation Processor</a> &gt; <a href="index.source.html" class="el_package">net.trajano.apt.jpa</a> &gt; <span class="el_source">EntityProcessor.java</span></div><h1>EntityProcessor.java</h1><pre class="source lang-java linenums">package net.trajano.apt.jpa;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Set;
+
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
+import javax.persistence.Entity;
+
+import net.trajano.apt.jpa.internal.MetaTableModel;
+import net.trajano.apt.jpa.internal.TableModelGenerator;
+
+/**
+ * This is used to process JPA classes to add support code. The support code is
+ * the plural version of the entity name.
+ */
+@SupportedAnnotationTypes(&quot;javax.persistence.Entity&quot;)
+@SupportedSourceVersion(SourceVersion.RELEASE_6)
+<span class="nc" id="L25">public class EntityProcessor extends AbstractProcessor {</span>
+    @Override
+    public boolean process(final Set&lt;? extends TypeElement&gt; annotations,
+            final RoundEnvironment roundEnv) {
+<span class="nc" id="L29">        final TableModelGenerator generator = new TableModelGenerator();</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        for (final Element element : roundEnv</span>
+                .getElementsAnnotatedWith(Entity.class)) {
+            try {
+<span class="nc" id="L33">                final TypeElement typeElement = (TypeElement) element;</span>
+<span class="nc" id="L34">                final MetaTableModel tableModel = new MetaTableModel(</span>
+                        typeElement);
+<span class="nc" id="L36">                final Writer w = processingEnv</span>
+                        .getFiler()
+                        .createSourceFile(tableModel.getQualifiedName(),
+                                element).openWriter();
+
+<span class="nc" id="L41">                w.write(generator.generate(tableModel));</span>
+<span class="nc" id="L42">                w.close();</span>
+<span class="nc" id="L43">            } catch (final IOException e) {</span>
+<span class="nc" id="L44">                e.printStackTrace();</span>
+<span class="nc" id="L45">            }</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MetaNamedQuery.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JPA Annotation Processor</a> &gt; <a href="index.source.html" class="el_package">net.trajano.apt.jpa.internal</a> &gt; <span class="el_source">MetaNamedQuery.java</span></div><h1>MetaNamedQuery.java</h1><pre class="source lang-java linenums">package net.trajano.apt.jpa.internal;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.persistence.NamedQuery;
+
+public class MetaNamedQuery {
+    private final String methodName;
+    private final String name;
+    private final List&lt;String&gt; parameters;
+
+<span class="nc" id="L15">    public MetaNamedQuery(final NamedQuery namedQueryAnnotation) {</span>
+<span class="nc" id="L16">        name = namedQueryAnnotation.name();</span>
+<span class="nc" id="L17">        methodName = name.substring(name.lastIndexOf('.') + 1);</span>
+<span class="nc" id="L18">        parameters = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L19">        final Matcher m = Pattern.compile(&quot;\\:([^=&lt;&gt;\\s\\']+)&quot;).matcher(</span>
+                namedQueryAnnotation.query());
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        while (m.find()) {</span>
+<span class="nc" id="L22">            parameters.add(m.group(1));</span>
+        }
+<span class="nc" id="L24">    }</span>
+
+    public String getMethodName() {
+<span class="nc" id="L27">        return methodName;</span>
+    }
+
+    public String getName() {
+<span class="nc" id="L31">        return name;</span>
+    }
+
+    public List&lt;String&gt; getParameters() {
+<span class="nc" id="L35">        return parameters;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
