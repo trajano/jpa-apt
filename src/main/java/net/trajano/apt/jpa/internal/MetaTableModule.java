@@ -14,6 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+/**
+ * Represents the table module class that would get generated.
+ *
+ * @author Archimedes Trajano
+ */
 public class MetaTableModule {
     /**
      * Pluralizes a string. The logic is add "s" if the last character is not an
@@ -43,17 +48,44 @@ public class MetaTableModule {
      * Class name for the table module.
      */
     private final String className;
+
+    /**
+     * Class name of the source entity.
+     */
     private final String entityClassName;
+
+    /**
+     * Extra operations.
+     */
     private final List<MetaOperation> extraOperations;
 
+    /**
+     * Type for the @Id field.
+     */
     private final String idType;
 
+    /**
+     * Named queries.
+     */
     private final List<MetaNamedQuery> namedQueries;
 
+    /**
+     * Package name.
+     */
     private final String packageName;
 
+    /**
+     * Qualified name of the Table Module class.
+     */
     private final String qualifiedName;
 
+    /**
+     * Processes an entity class to extract the data needed to represent a table
+     * module class.
+     *
+     * @param entityType
+     *            entity class to process
+     */
     public MetaTableModule(final TypeElement entityType) {
         packageName = ((PackageElement) entityType.getEnclosingElement())
                 .getQualifiedName().toString();
@@ -70,18 +102,19 @@ public class MetaTableModule {
             }
         }
 
-        String idType = null;
+        String computedIdType = null;
         extraOperations = new ArrayList<MetaOperation>();
         for (final Element element : entityType.getEnclosedElements()) {
             if (ElementKind.FIELD == element.getKind()
                     && element.getAnnotation(Id.class) != null) {
-                idType = ((VariableElement) element).asType().toString();
+                computedIdType = ((VariableElement) element).asType()
+                        .toString();
             } else if (isExtraOperation(element)) {
                 extraOperations.add(new MetaOperation(
                         (ExecutableElement) element));
             }
         }
-        this.idType = idType;
+        idType = computedIdType;
     }
 
     public String getClassName() {
@@ -119,7 +152,7 @@ public class MetaTableModule {
      *
      * @param element
      *            element to evaluate
-     * @return
+     * @return <code>true</code> if the element represents an extra operation.
      */
     private boolean isExtraOperation(final Element element) {
         if (!ElementKind.METHOD.equals(element.getKind())) {
