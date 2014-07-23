@@ -9,25 +9,25 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> net.trajano.apt.jpa.test;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertEquals;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> net.trajano.apt.jpa.internal.MetaTableModel;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> net.trajano.apt.jpa.internal.MetaTableModule;
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.junit.Test;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> * Tests the module.</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> * Tests pluralization.</em>
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../net/trajano/apt/jpa/test/PluralizationTest.html">PluralizationTest</a> {
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment">	 * Tests the module method.</em>
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  	@Test
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testPluralize() {
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  		assertEquals(<span class="jxr_string">"Sessions"</span>, MetaTableModel.pluralize(<span class="jxr_string">"Session"</span>));
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  		assertEquals(<span class="jxr_string">"Pluses"</span>, MetaTableModel.pluralize(<span class="jxr_string">"Plus"</span>));
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  		assertEquals(<span class="jxr_string">"Entities"</span>, MetaTableModel.pluralize(<span class="jxr_string">"Entity"</span>));
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  		assertEquals(<span class="jxr_string">"Boxes"</span>, MetaTableModel.pluralize(<span class="jxr_string">"Box"</span>));
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  	}
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment">     * Tests {@link MetaTableModule#pluralize(String)}.</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>      @Test
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testPluralize() {
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>          assertEquals(<span class="jxr_string">"Sessions"</span>, MetaTableModule.pluralize(<span class="jxr_string">"Session"</span>));
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>          assertEquals(<span class="jxr_string">"Pluses"</span>, MetaTableModule.pluralize(<span class="jxr_string">"Plus"</span>));
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>          assertEquals(<span class="jxr_string">"Entities"</span>, MetaTableModule.pluralize(<span class="jxr_string">"Entity"</span>));
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>          assertEquals(<span class="jxr_string">"Boxes"</span>, MetaTableModule.pluralize(<span class="jxr_string">"Box"</span>));
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>      }
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  }
 </pre>
 <hr/>

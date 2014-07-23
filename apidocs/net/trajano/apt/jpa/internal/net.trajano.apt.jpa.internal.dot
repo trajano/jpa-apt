@@ -9,18 +9,18 @@ digraph G {
 	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// net.trajano.apt.jpa.internal.TableModelGenerator
-	c6 [label=<<table title="net.trajano.apt.jpa.internal.TableModelGenerator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TableModelGenerator.html">
+	// net.trajano.apt.jpa.internal.TableModuleGenerator
+	c6 [label=<<table title="net.trajano.apt.jpa.internal.TableModuleGenerator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TableModuleGenerator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> TableModelGenerator </td></tr>
+<tr><td align="center" balign="center"> TableModuleGenerator </td></tr>
 		</table></td></tr>
-		</table>>, URL="./TableModelGenerator.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// net.trajano.apt.jpa.internal.MetaTableModel
-	c7 [label=<<table title="net.trajano.apt.jpa.internal.MetaTableModel" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MetaTableModel.html">
+		</table>>, URL="./TableModuleGenerator.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// net.trajano.apt.jpa.internal.MetaTableModule
+	c7 [label=<<table title="net.trajano.apt.jpa.internal.MetaTableModule" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MetaTableModule.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> MetaTableModel </td></tr>
+<tr><td align="center" balign="center"> MetaTableModule </td></tr>
 		</table></td></tr>
-		</table>>, URL="./MetaTableModel.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./MetaTableModule.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// net.trajano.apt.jpa.internal.MetaOperation
 	c8 [label=<<table title="net.trajano.apt.jpa.internal.MetaOperation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MetaOperation.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">

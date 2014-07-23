@@ -27,7 +27,7 @@ under the License.
     <item>
       <title>File: 6,
              Errors: 0,
-             Warnings: 23,
+             Warnings: 20,
              Infos: 0
       </title>
             <link>http://site.trajano.net/trajano/jpa-apt//checkstyle.html</link>
@@ -53,20 +53,6 @@ under the License.
                 </td>
                 <td>
                   5
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://site.trajano.net/trajano/jpa-apt//checkstyle.html#net.trajano.apt.jpa.internal.MetaTableModel.java">net/trajano/apt/jpa/internal/MetaTableModel.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  13
                 </td>
                 <td>
                   0
@@ -123,6 +109,20 @@ under the License.
                 </td>
                 <td>
                   0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://site.trajano.net/trajano/jpa-apt//checkstyle.html#net.trajano.apt.jpa.internal.MetaTableModule.java">net/trajano/apt/jpa/internal/MetaTableModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
                 </td>
                 <td>
                   0
