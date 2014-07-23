@@ -1,6 +1,9 @@
 package example;
 
+import java.sql.SQLException;
+
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -23,4 +26,17 @@ public class TestEntity {
      */
     private String message;
 
+    public static void someOperationThatRequiresEntityManager(EntityManager em) {
+
+    }
+
+    public static long someOtherOperationThatRequiresEntityManager(
+            EntityManager em, String q) throws SQLException {
+        return 1L;
+    }
+
+    public static long skippedOtherOperation(String q)
+            throws SQLException {
+        return 1L;
+    }
 }
