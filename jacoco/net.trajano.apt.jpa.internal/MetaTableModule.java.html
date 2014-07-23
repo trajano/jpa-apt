@@ -14,6 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+/**
+ * Represents the table module class that would get generated.
+ *
+ * @author Archimedes Trajano
+ */
 public class MetaTableModule {
     /**
      * Pluralizes a string. The logic is add &quot;s&quot; if the last character is not an
@@ -30,12 +35,12 @@ public class MetaTableModule {
      * @return plural string
      */
     public static String pluralize(final String s) {
-<span class="fc bfc" id="L33" title="All 4 branches covered.">        if (s.endsWith(&quot;s&quot;) || s.endsWith(&quot;x&quot;)) {</span>
-<span class="fc" id="L34">            return s + &quot;es&quot;;</span>
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        } else if (s.endsWith(&quot;y&quot;)) {</span>
-<span class="fc" id="L36">            return s.substring(0, s.length() - 1) + &quot;ies&quot;;</span>
+<span class="fc bfc" id="L38" title="All 4 branches covered.">        if (s.endsWith(&quot;s&quot;) || s.endsWith(&quot;x&quot;)) {</span>
+<span class="fc" id="L39">            return s + &quot;es&quot;;</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        } else if (s.endsWith(&quot;y&quot;)) {</span>
+<span class="fc" id="L41">            return s.substring(0, s.length() - 1) + &quot;ies&quot;;</span>
         } else {
-<span class="fc" id="L38">            return s + &quot;s&quot;;</span>
+<span class="fc" id="L43">            return s + &quot;s&quot;;</span>
         }
     }
 
@@ -43,73 +48,94 @@ public class MetaTableModule {
      * Class name for the table module.
      */
     private final String className;
+
+    /**
+     * Class name of the source entity.
+     */
     private final String entityClassName;
+
+    /**
+     * Extra operations.
+     */
     private final List&lt;MetaOperation&gt; extraOperations;
 
+    /**
+     * Type for the @Id field.
+     */
     private final String idType;
 
+    /**
+     * Named queries.
+     */
     private final List&lt;MetaNamedQuery&gt; namedQueries;
 
+    /**
+     * Package name.
+     */
     private final String packageName;
 
+    /**
+     * Qualified name of the Table Module class.
+     */
     private final String qualifiedName;
 
-<span class="nc" id="L57">    public MetaTableModule(final TypeElement entityType) {</span>
-<span class="nc" id="L58">        packageName = ((PackageElement) entityType.getEnclosingElement())</span>
+<span class="nc" id="L82">    public MetaTableModule(final TypeElement entityType) {</span>
+<span class="nc" id="L83">        packageName = ((PackageElement) entityType.getEnclosingElement())</span>
                 .getQualifiedName().toString();
-<span class="nc" id="L60">        entityClassName = entityType.getSimpleName().toString();</span>
-<span class="nc" id="L61">        className = pluralize(entityClassName);</span>
-<span class="nc" id="L62">        qualifiedName = pluralize(entityType.getQualifiedName().toString());</span>
-<span class="nc" id="L63">        namedQueries = new ArrayList&lt;MetaNamedQuery&gt;();</span>
-<span class="nc" id="L64">        final NamedQueries namedQueriesAnnotation = entityType</span>
+<span class="nc" id="L85">        entityClassName = entityType.getSimpleName().toString();</span>
+<span class="nc" id="L86">        className = pluralize(entityClassName);</span>
+<span class="nc" id="L87">        qualifiedName = pluralize(entityType.getQualifiedName().toString());</span>
+<span class="nc" id="L88">        namedQueries = new ArrayList&lt;MetaNamedQuery&gt;();</span>
+<span class="nc" id="L89">        final NamedQueries namedQueriesAnnotation = entityType</span>
                 .getAnnotation(NamedQueries.class);
-<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (namedQueriesAnnotation != null) {</span>
-<span class="nc bnc" id="L67" title="All 2 branches missed.">            for (final NamedQuery namedQueryAnnotation : namedQueriesAnnotation</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (namedQueriesAnnotation != null) {</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            for (final NamedQuery namedQueryAnnotation : namedQueriesAnnotation</span>
                     .value()) {
-<span class="nc" id="L69">                namedQueries.add(new MetaNamedQuery(namedQueryAnnotation));</span>
+<span class="nc" id="L94">                namedQueries.add(new MetaNamedQuery(namedQueryAnnotation));</span>
             }
         }
 
-<span class="nc" id="L73">        String idType = null;</span>
-<span class="nc" id="L74">        extraOperations = new ArrayList&lt;MetaOperation&gt;();</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">        for (final Element element : entityType.getEnclosedElements()) {</span>
-<span class="nc bnc" id="L76" title="All 4 branches missed.">            if (ElementKind.FIELD == element.getKind()</span>
+<span class="nc" id="L98">        String computedIdType = null;</span>
+<span class="nc" id="L99">        extraOperations = new ArrayList&lt;MetaOperation&gt;();</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        for (final Element element : entityType.getEnclosedElements()) {</span>
+<span class="nc bnc" id="L101" title="All 4 branches missed.">            if (ElementKind.FIELD == element.getKind()</span>
                     &amp;&amp; element.getAnnotation(Id.class) != null) {
-<span class="nc" id="L78">                idType = ((VariableElement) element).asType().toString();</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">            } else if (isExtraOperation(element)) {</span>
-<span class="nc" id="L80">                extraOperations.add(new MetaOperation(</span>
+<span class="nc" id="L103">                computedIdType = ((VariableElement) element).asType()</span>
+                        .toString();
+<span class="nc bnc" id="L105" title="All 2 branches missed.">            } else if (isExtraOperation(element)) {</span>
+<span class="nc" id="L106">                extraOperations.add(new MetaOperation(</span>
                         (ExecutableElement) element));
             }
-<span class="nc" id="L83">        }</span>
-<span class="nc" id="L84">        this.idType = idType;</span>
-<span class="nc" id="L85">    }</span>
+<span class="nc" id="L109">        }</span>
+<span class="nc" id="L110">        idType = computedIdType;</span>
+<span class="nc" id="L111">    }</span>
 
     public String getClassName() {
-<span class="nc" id="L88">        return className;</span>
+<span class="nc" id="L114">        return className;</span>
     }
 
     public String getEntityClassName() {
-<span class="nc" id="L92">        return entityClassName;</span>
+<span class="nc" id="L118">        return entityClassName;</span>
     }
 
     public List&lt;MetaOperation&gt; getExtraOperations() {
-<span class="nc" id="L96">        return extraOperations;</span>
+<span class="nc" id="L122">        return extraOperations;</span>
     }
 
     public String getIdType() {
-<span class="nc" id="L100">        return idType;</span>
+<span class="nc" id="L126">        return idType;</span>
     }
 
     public List&lt;MetaNamedQuery&gt; getNamedQueries() {
-<span class="nc" id="L104">        return namedQueries;</span>
+<span class="nc" id="L130">        return namedQueries;</span>
     }
 
     public String getPackageName() {
-<span class="nc" id="L108">        return packageName;</span>
+<span class="nc" id="L134">        return packageName;</span>
     }
 
     public String getQualifiedName() {
-<span class="nc" id="L112">        return qualifiedName;</span>
+<span class="nc" id="L138">        return qualifiedName;</span>
     }
 
     /**
@@ -119,24 +145,24 @@ public class MetaTableModule {
      *
      * @param element
      *            element to evaluate
-     * @return
+     * @return &lt;code&gt;true&lt;/code&gt; if the element represents an extra operation.
      */
     private boolean isExtraOperation(final Element element) {
-<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (!ElementKind.METHOD.equals(element.getKind())) {</span>
-<span class="nc" id="L126">            return false;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (!ElementKind.METHOD.equals(element.getKind())) {</span>
+<span class="nc" id="L152">            return false;</span>
         }
-<span class="nc" id="L128">        final ExecutableElement methodElement = (ExecutableElement) element;</span>
-<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (!methodElement.getModifiers().contains(Modifier.PUBLIC)) {</span>
-<span class="nc" id="L130">            return false;</span>
+<span class="nc" id="L154">        final ExecutableElement methodElement = (ExecutableElement) element;</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (!methodElement.getModifiers().contains(Modifier.PUBLIC)) {</span>
+<span class="nc" id="L156">            return false;</span>
         }
-<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (!methodElement.getModifiers().contains(Modifier.STATIC)) {</span>
-<span class="nc" id="L133">            return false;</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">        if (!methodElement.getModifiers().contains(Modifier.STATIC)) {</span>
+<span class="nc" id="L159">            return false;</span>
         }
-<span class="nc bnc" id="L135" title="All 2 branches missed.">        if (!&quot;javax.persistence.EntityManager&quot;.equals(methodElement</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (!&quot;javax.persistence.EntityManager&quot;.equals(methodElement</span>
                 .getParameters().get(0).asType().toString())) {
-<span class="nc" id="L137">            return false;</span>
+<span class="nc" id="L163">            return false;</span>
         }
-<span class="nc" id="L139">        return true;</span>
+<span class="nc" id="L165">        return true;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

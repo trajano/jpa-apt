@@ -3,6 +3,7 @@
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
@@ -23,31 +24,40 @@ import net.trajano.apt.jpa.internal.TableModuleGenerator;
  */
 @SupportedAnnotationTypes(&quot;javax.persistence.Entity&quot;)
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
-<span class="nc" id="L26">public class EntityProcessor extends AbstractProcessor {</span>
+<span class="nc" id="L27">public class EntityProcessor extends AbstractProcessor {</span>
+    /**
+     * Logger.
+     */
+<span class="nc" id="L31">    private static final Logger LOG = Logger.getLogger(&quot;net.trajano.apt.jpa&quot;);</span>
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean process(final Set&lt;? extends TypeElement&gt; annotations,
             final RoundEnvironment roundEnv) {
-<span class="nc" id="L30">        final TableModuleGenerator generator = new TableModuleGenerator();</span>
-<span class="nc bnc" id="L31" title="All 2 branches missed.">        for (final Element element : roundEnv</span>
+<span class="nc" id="L39">        final TableModuleGenerator generator = new TableModuleGenerator();</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (final Element element : roundEnv</span>
                 .getElementsAnnotatedWith(Entity.class)) {
             try {
-<span class="nc" id="L34">                final TypeElement typeElement = (TypeElement) element;</span>
-<span class="nc" id="L35">                final MetaTableModule tableModule = new MetaTableModule(</span>
+<span class="nc" id="L43">                final TypeElement typeElement = (TypeElement) element;</span>
+<span class="nc" id="L44">                final MetaTableModule tableModule = new MetaTableModule(</span>
                         typeElement);
-<span class="nc" id="L37">                final Writer w = processingEnv</span>
+<span class="nc" id="L46">                final Writer w = processingEnv</span>
                         .getFiler()
                         .createSourceFile(tableModule.getQualifiedName(),
                                 element).openWriter();
 
-<span class="nc" id="L42">                w.write(generator.generate(tableModule));</span>
-<span class="nc" id="L43">                w.close();</span>
-<span class="nc" id="L44">            } catch (final IOException e) {</span>
-<span class="nc" id="L45">                processingEnv.getMessager().printMessage(Kind.ERROR,</span>
+<span class="nc" id="L51">                w.write(generator.generate(tableModule));</span>
+<span class="nc" id="L52">                w.close();</span>
+<span class="nc" id="L53">            } catch (final IOException e) {</span>
+<span class="nc" id="L54">                processingEnv.getMessager().printMessage(Kind.ERROR,</span>
                         e.getMessage(), element);
-<span class="nc" id="L47">                return false;</span>
-<span class="nc" id="L48">            }</span>
-<span class="nc" id="L49">        }</span>
-<span class="nc" id="L50">        return true;</span>
+<span class="nc" id="L56">                LOG.throwing(getClass().getName(), &quot;process&quot;, e);</span>
+<span class="nc" id="L57">                return false;</span>
+<span class="nc" id="L58">            }</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">        return true;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
