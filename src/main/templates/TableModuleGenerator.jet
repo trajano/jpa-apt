@@ -1,5 +1,5 @@
-<%@ jet class="TableModelGenerator" package="net.trajano.apt.jpa.internal" %>
-<% MetaTableModel meta = (MetaTableModel)argument; %> 
+<%@ jet class="TableModuleGenerator" package="net.trajano.apt.jpa.internal" %>
+<% MetaTableModule meta = (MetaTableModule)argument; %> 
 package <%=meta.getPackageName()%>;
 
 import java.util.List;

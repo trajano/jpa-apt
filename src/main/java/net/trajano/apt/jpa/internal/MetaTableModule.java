@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
-public class MetaTableModel {
+public class MetaTableModule {
     /**
      * Pluralizes a string. The logic is add "s" if the last character is not an
      * "s" with the following exceptions:
@@ -23,6 +23,7 @@ public class MetaTableModel {
      * <li>add "es" if the input string ends with an "x".
      * <li>replace the last character and add "ies" if the input string ends
      * with an "y".
+     * </ul>
      *
      * @param s
      *            string to pluralize
@@ -38,6 +39,9 @@ public class MetaTableModel {
         }
     }
 
+    /**
+     * Class name for the table module.
+     */
     private final String className;
     private final String entityClassName;
     private final List<MetaOperation> extraOperations;
@@ -50,7 +54,7 @@ public class MetaTableModel {
 
     private final String qualifiedName;
 
-    public MetaTableModel(final TypeElement entityType) {
+    public MetaTableModule(final TypeElement entityType) {
         packageName = ((PackageElement) entityType.getEnclosingElement())
                 .getQualifiedName().toString();
         entityClassName = entityType.getSimpleName().toString();

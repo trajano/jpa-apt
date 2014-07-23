@@ -13,8 +13,8 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.persistence.Entity;
 
-import net.trajano.apt.jpa.internal.MetaTableModel;
-import net.trajano.apt.jpa.internal.TableModelGenerator;
+import net.trajano.apt.jpa.internal.MetaTableModule;
+import net.trajano.apt.jpa.internal.TableModuleGenerator;
 
 /**
  * This is used to process JPA classes to add support code. The support code is
@@ -26,19 +26,19 @@ public class EntityProcessor extends AbstractProcessor {
     @Override
     public boolean process(final Set<? extends TypeElement> annotations,
             final RoundEnvironment roundEnv) {
-        final TableModelGenerator generator = new TableModelGenerator();
+        final TableModuleGenerator generator = new TableModuleGenerator();
         for (final Element element : roundEnv
                 .getElementsAnnotatedWith(Entity.class)) {
             try {
                 final TypeElement typeElement = (TypeElement) element;
-                final MetaTableModel tableModel = new MetaTableModel(
+                final MetaTableModule tableModule = new MetaTableModule(
                         typeElement);
                 final Writer w = processingEnv
                         .getFiler()
-                        .createSourceFile(tableModel.getQualifiedName(),
+                        .createSourceFile(tableModule.getQualifiedName(),
                                 element).openWriter();
 
-                w.write(generator.generate(tableModel));
+                w.write(generator.generate(tableModule));
                 w.close();
             } catch (final IOException e) {
                 e.printStackTrace();
