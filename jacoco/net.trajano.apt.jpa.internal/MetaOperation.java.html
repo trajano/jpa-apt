@@ -14,11 +14,31 @@ import javax.lang.model.type.TypeMirror;
  * @author Archimedes Trajano
  */
 public class MetaOperation {
+    /**
+     * Method name.
+     */
     private final String methodName;
+
+    /**
+     * Parameter declarations. The parameter declaration includes the modifiers
+     * such as &lt;code&gt;final&lt;/code&gt;, the parameter type and parameter name.
+     */
     private final List&lt;String&gt; parameterDeclarations;
+
+    /**
+     * Parameter names. This should be the same size as the parameter
+     * declarations.
+     */
     private final List&lt;String&gt; parameterNames;
+
+    /**
+     * The return type. This may be &lt;code&gt;void&lt;/code&gt;.
+     */
     private final String returnType;
 
+    /**
+     * List of types that are thrown, may be an empty list.
+     */
     private final List&lt;String&gt; thrownTypes;
 
     /**
@@ -29,58 +49,58 @@ public class MetaOperation {
      * @param element
      *            the method to process
      */
-<span class="nc" id="L32">    public MetaOperation(final ExecutableElement element) {</span>
-<span class="nc" id="L33">        methodName = element.getSimpleName().toString();</span>
-<span class="nc" id="L34">        parameterDeclarations = new ArrayList&lt;String&gt;();</span>
-<span class="nc" id="L35">        parameterNames = new ArrayList&lt;String&gt;();</span>
-<span class="nc" id="L36">        thrownTypes = new ArrayList&lt;String&gt;();</span>
-<span class="nc" id="L37">        final List&lt;? extends VariableElement&gt; parameters = element</span>
+<span class="nc" id="L52">    public MetaOperation(final ExecutableElement element) {</span>
+<span class="nc" id="L53">        methodName = element.getSimpleName().toString();</span>
+<span class="nc" id="L54">        parameterDeclarations = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L55">        parameterNames = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L56">        thrownTypes = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L57">        final List&lt;? extends VariableElement&gt; parameters = element</span>
                 .getParameters();
-<span class="nc bnc" id="L39" title="All 2 branches missed.">        for (int i = 1; i &lt; parameters.size(); ++i) {</span>
-<span class="nc" id="L40">            final VariableElement varElement = parameters.get(i);</span>
-<span class="nc" id="L41">            final StringBuilder parameter = new StringBuilder();</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (int i = 1; i &lt; parameters.size(); ++i) {</span>
+<span class="nc" id="L60">            final VariableElement varElement = parameters.get(i);</span>
+<span class="nc" id="L61">            final StringBuilder parameter = new StringBuilder();</span>
 
-<span class="nc bnc" id="L43" title="All 2 branches missed.">            for (final Modifier modifier : varElement.getModifiers()) {</span>
-<span class="nc" id="L44">                parameter.append(modifier);</span>
-<span class="nc" id="L45">                parameter.append(' ');</span>
-<span class="nc" id="L46">            }</span>
-<span class="nc" id="L47">            parameter.append(varElement.asType());</span>
-<span class="nc" id="L48">            parameter.append(' ');</span>
-<span class="nc" id="L49">            parameter.append(varElement.getSimpleName());</span>
-<span class="nc" id="L50">            parameterDeclarations.add(parameter.toString());</span>
-<span class="nc" id="L51">            parameterNames.add(varElement.getSimpleName().toString());</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            for (final Modifier modifier : varElement.getModifiers()) {</span>
+<span class="nc" id="L64">                parameter.append(modifier);</span>
+<span class="nc" id="L65">                parameter.append(' ');</span>
+<span class="nc" id="L66">            }</span>
+<span class="nc" id="L67">            parameter.append(varElement.asType());</span>
+<span class="nc" id="L68">            parameter.append(' ');</span>
+<span class="nc" id="L69">            parameter.append(varElement.getSimpleName());</span>
+<span class="nc" id="L70">            parameterDeclarations.add(parameter.toString());</span>
+<span class="nc" id="L71">            parameterNames.add(varElement.getSimpleName().toString());</span>
         }
 
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (final TypeMirror thrownType : element.getThrownTypes()) {</span>
-<span class="nc" id="L55">            thrownTypes.add(thrownType.toString());</span>
-<span class="nc" id="L56">        }</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (final TypeMirror thrownType : element.getThrownTypes()) {</span>
+<span class="nc" id="L75">            thrownTypes.add(thrownType.toString());</span>
+<span class="nc" id="L76">        }</span>
 
-<span class="nc" id="L58">        returnType = element.getReturnType().toString();</span>
-<span class="nc" id="L59">    }</span>
+<span class="nc" id="L78">        returnType = element.getReturnType().toString();</span>
+<span class="nc" id="L79">    }</span>
 
     public String getMethodName() {
-<span class="nc" id="L62">        return methodName;</span>
+<span class="nc" id="L82">        return methodName;</span>
     }
 
     public List&lt;String&gt; getParameterDeclarations() {
-<span class="nc" id="L66">        return parameterDeclarations;</span>
+<span class="nc" id="L86">        return parameterDeclarations;</span>
     }
 
     public List&lt;String&gt; getParameterNames() {
-<span class="nc" id="L70">        return parameterNames;</span>
+<span class="nc" id="L90">        return parameterNames;</span>
     }
 
     public String getReturnType() {
-<span class="nc" id="L74">        return returnType;</span>
+<span class="nc" id="L94">        return returnType;</span>
     }
 
     public List&lt;String&gt; getThrownTypes() {
-<span class="nc" id="L78">        return thrownTypes;</span>
+<span class="nc" id="L98">        return thrownTypes;</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L83">        return &quot;MetaOperation [methodName=&quot; + methodName + &quot;, parameterTypes=&quot;</span>
+<span class="nc" id="L103">        return &quot;MetaOperation [methodName=&quot; + methodName + &quot;, parameterTypes=&quot;</span>
                 + parameterDeclarations + &quot;, thrownTypes=&quot; + thrownTypes + &quot;]&quot;;
     }
 
