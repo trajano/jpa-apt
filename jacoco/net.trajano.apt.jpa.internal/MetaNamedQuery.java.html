@@ -7,32 +7,57 @@ import java.util.regex.Pattern;
 
 import javax.persistence.NamedQuery;
 
+/**
+ * Represents the named query.
+ *
+ * @author Archimedes Trajano
+ *
+ */
 public class MetaNamedQuery {
+    /**
+     * Method name. This is extracted from the name of the named query as the
+     * text segment after the last &quot;.&quot; character.
+     */
     private final String methodName;
+
+    /**
+     * Name of the named query. Used for the generated JavaDoc.
+     */
     private final String name;
+
+    /**
+     * List of parameter names.
+     */
     private final List&lt;String&gt; parameters;
 
-<span class="nc" id="L15">    public MetaNamedQuery(final NamedQuery namedQueryAnnotation) {</span>
-<span class="nc" id="L16">        name = namedQueryAnnotation.name();</span>
-<span class="nc" id="L17">        methodName = name.substring(name.lastIndexOf('.') + 1);</span>
-<span class="nc" id="L18">        parameters = new ArrayList&lt;String&gt;();</span>
-<span class="nc" id="L19">        final Matcher m = Pattern.compile(&quot;\\:([^=&lt;&gt;\\s\\']+)&quot;).matcher(</span>
+    /**
+     * Extracts the data from the annotation. The parameters names are obtained
+     * by finding valid parameter identifiers prefixed with a &quot;:&quot;.
+     *
+     * @param namedQueryAnnotation
+     *            annotation to process.
+     */
+<span class="nc" id="L40">    public MetaNamedQuery(final NamedQuery namedQueryAnnotation) {</span>
+<span class="nc" id="L41">        name = namedQueryAnnotation.name();</span>
+<span class="nc" id="L42">        methodName = name.substring(name.lastIndexOf('.') + 1);</span>
+<span class="nc" id="L43">        parameters = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L44">        final Matcher m = Pattern.compile(&quot;\\:([^=&lt;&gt;\\s\\']+)&quot;).matcher(</span>
                 namedQueryAnnotation.query());
-<span class="nc bnc" id="L21" title="All 2 branches missed.">        while (m.find()) {</span>
-<span class="nc" id="L22">            parameters.add(m.group(1));</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        while (m.find()) {</span>
+<span class="nc" id="L47">            parameters.add(m.group(1));</span>
         }
-<span class="nc" id="L24">    }</span>
+<span class="nc" id="L49">    }</span>
 
     public String getMethodName() {
-<span class="nc" id="L27">        return methodName;</span>
+<span class="nc" id="L52">        return methodName;</span>
     }
 
     public String getName() {
-<span class="nc" id="L31">        return name;</span>
+<span class="nc" id="L56">        return name;</span>
     }
 
     public List&lt;String&gt; getParameters() {
-<span class="nc" id="L35">        return parameters;</span>
+<span class="nc" id="L60">        return parameters;</span>
     }
 
 }
