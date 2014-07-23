@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.Modifier;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 
@@ -45,6 +44,8 @@ public class MetaOperation {
      * Extracts data from the executable element to form the model. The
      * annotations are not copied over as the resulting SLSB may not expect them
      * and would cause problems (e.g. @Inject when there shouldn't be one).
+     * Modifiers are also ignored, but a <code>final</code> modifier is
+     * explicitly added.
      *
      * @param element
      *            the method to process
@@ -58,17 +59,14 @@ public class MetaOperation {
                 .getParameters();
         for (int i = 1; i < parameters.size(); ++i) {
             final VariableElement varElement = parameters.get(i);
-            final StringBuilder parameter = new StringBuilder();
-
-            for (final Modifier modifier : varElement.getModifiers()) {
-                parameter.append(modifier);
-                parameter.append(' ');
-            }
+            final StringBuilder parameter = new StringBuilder("final ");
             parameter.append(varElement.asType());
             parameter.append(' ');
-            parameter.append(varElement.getSimpleName());
+
+            final String parameterName = varElement.getSimpleName().toString();
+            parameter.append(parameterName);
             parameterDeclarations.add(parameter.toString());
-            parameterNames.add(varElement.getSimpleName().toString());
+            parameterNames.add(parameterName);
         }
 
         for (final TypeMirror thrownType : element.getThrownTypes()) {

@@ -1,6 +1,7 @@
 package net.trajano.apt.jpa.internal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.lang.model.element.Element;
@@ -159,10 +160,8 @@ public class MetaTableModule {
             return false;
         }
         final ExecutableElement methodElement = (ExecutableElement) element;
-        if (!methodElement.getModifiers().contains(Modifier.PUBLIC)) {
-            return false;
-        }
-        if (!methodElement.getModifiers().contains(Modifier.STATIC)) {
+        if (!methodElement.getModifiers().containsAll(
+                Arrays.asList(Modifier.PUBLIC, Modifier.STATIC))) {
             return false;
         }
         if (!"javax.persistence.EntityManager".equals(methodElement
