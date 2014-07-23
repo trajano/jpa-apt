@@ -32,7 +32,7 @@ public class EntityProcessor extends AbstractProcessor {
             try {
                 final TypeElement typeElement = (TypeElement) element;
                 final MetaTableModel tableModel = new MetaTableModel(
-                        typeElement, processingEnv.getTypeUtils());
+                        typeElement);
                 final Writer w = processingEnv
                         .getFiler()
                         .createSourceFile(tableModel.getQualifiedName(),

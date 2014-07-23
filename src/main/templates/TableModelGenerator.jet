@@ -51,6 +51,26 @@ public class <%=meta.getClassName()%> {
     }
 
 <% } %>
+<% for (final MetaOperation operation: meta.getExtraOperations()) { %>
+    /**
+     * Execute extra operation <%=operation.getMethodName()%>.
+<%  for (int i = 0 ; i < operation.getParameterNames().size(); ++i) { %>
+     * @param <%=operation.getParameterNames().get(i)%> <%=operation.getParameterNames().get(i)%> 
+<%  } %>
+     * @return <%=operation.getReturnType()%> 
+     */
+    public <%=operation.getReturnType()%> <%=operation.getMethodName()%>(<%  for (int i = 0 ; i < operation.getParameterDeclarations().size(); ++i) { %><%=operation.getParameterDeclarations().get(i)%><% if (i < operation.getParameterDeclarations().size() - 1) { %>,<% } %><%  } %>)
+<%  if (!operation.getThrownTypes().isEmpty()) {%>
+      throws <%  for (int i = 0 ; i < operation.getThrownTypes().size(); ++i) { %><%=operation.getThrownTypes().get(i)%><% if (i < operation.getThrownTypes().size() - 1) { %>,<% } %><%  } %>
+<%  } %>
+    {
+<%  if (!"void".equals(operation.getReturnType())) {%>
+        return 
+<%  } %>
+        <%=meta.getEntityClassName()%>.<%=operation.getMethodName()%>(em<% for (int i = 0 ; i < operation.getParameterNames().size(); ++i) { %>, <%=operation.getParameterNames().get(i) %><%  } %>);
+    }
+
+<% } %>
     /**
      * Save, flush and refresh a persisted bean. The flush and refreshing is
      * needed to ensure that the temporal data contains the proper values.

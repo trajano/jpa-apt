@@ -5,10 +5,11 @@ import java.util.List;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
-import javax.lang.model.util.Types;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -39,6 +40,8 @@ public class MetaTableModel {
 
     private final String className;
     private final String entityClassName;
+    private final List<MetaOperation> extraOperations;
+
     private final String idType;
 
     private final List<MetaNamedQuery> namedQueries;
@@ -47,7 +50,7 @@ public class MetaTableModel {
 
     private final String qualifiedName;
 
-    public MetaTableModel(final TypeElement entityType, final Types types) {
+    public MetaTableModel(final TypeElement entityType) {
         packageName = ((PackageElement) entityType.getEnclosingElement())
                 .getQualifiedName().toString();
         entityClassName = entityType.getSimpleName().toString();
@@ -64,13 +67,18 @@ public class MetaTableModel {
         }
 
         String idType = null;
+        extraOperations = new ArrayList<MetaOperation>();
         for (final Element element : entityType.getEnclosedElements()) {
             if (ElementKind.FIELD == element.getKind()
                     && element.getAnnotation(Id.class) != null) {
                 idType = ((VariableElement) element).asType().toString();
+            } else if (isExtraOperation(element)) {
+                extraOperations.add(new MetaOperation(
+                        (ExecutableElement) element));
             }
         }
         this.idType = idType;
+        System.out.println(extraOperations);
     }
 
     public String getClassName() {
@@ -79,6 +87,10 @@ public class MetaTableModel {
 
     public String getEntityClassName() {
         return entityClassName;
+    }
+
+    public List<MetaOperation> getExtraOperations() {
+        return extraOperations;
     }
 
     public String getIdType() {
@@ -95,5 +107,32 @@ public class MetaTableModel {
 
     public String getQualifiedName() {
         return qualifiedName;
+    }
+
+    /**
+     * Checks if the element represents an extra operation. An extra operation
+     * is defined as a public static method that takes in an EntityManager as
+     * it's first parameter.
+     *
+     * @param element
+     *            element to evaluate
+     * @return
+     */
+    private boolean isExtraOperation(final Element element) {
+        if (!ElementKind.METHOD.equals(element.getKind())) {
+            return false;
+        }
+        final ExecutableElement methodElement = (ExecutableElement) element;
+        if (!methodElement.getModifiers().contains(Modifier.PUBLIC)) {
+            return false;
+        }
+        if (!methodElement.getModifiers().contains(Modifier.STATIC)) {
+            return false;
+        }
+        if (!"javax.persistence.EntityManager".equals(methodElement
+                .getParameters().get(0).asType().toString())) {
+            return false;
+        }
+        return true;
     }
 }
