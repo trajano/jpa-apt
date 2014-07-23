@@ -27,10 +27,30 @@ public class <%=meta.getClassName()%> {
      *            primary key
      * @return persisted bean
      */
-    public <%=meta.getEntityClassName()%> get(final Object id) {
+    public <%=meta.getEntityClassName()%> get(final <%=meta.getIdType()%> id) {
         return em.find(<%=meta.getEntityClassName()%>.class, id);
     }
 
+<% for (final MetaNamedQuery namedQuery : meta.getNamedQueries()) { %>
+    /**
+     * Execute named query <%=namedQuery.getName()%>.
+<%  for (int i = 0 ; i < namedQuery.getParameters().size(); ++i) { %>
+     * @param <%=namedQuery.getParameters().get(i)%> <%=namedQuery.getParameters().get(i)%> 
+<%  } %>
+     * @return list of <%=meta.getEntityClassName()%>
+     */
+    public List<<%=meta.getEntityClassName()%>> <%=namedQuery.getMethodName()%>(<%  for (int i = 0 ; i < namedQuery.getParameters().size(); ++i) { %>final Object <%=namedQuery.getParameters().get(i)%><% if (i < namedQuery.getParameters().size() - 1) { %>,<% } %><%  } %>) {
+        return em
+                .createNamedQuery("<%=namedQuery.getName()%>",
+                        <%=meta.getEntityClassName()%>.class)
+                .setFlushMode(FlushModeType.AUTO)
+<%  for (int i = 0 ; i < namedQuery.getParameters().size(); ++i) { %>
+                .setParameter("<%=namedQuery.getParameters().get(i)%>", <%=namedQuery.getParameters().get(i)%>) 
+<%  } %>
+                .getResultList();
+    }
+
+<% } %>
     /**
      * Save, flush and refresh a persisted bean. The flush and refreshing is
      * needed to ensure that the temporal data contains the proper values.
