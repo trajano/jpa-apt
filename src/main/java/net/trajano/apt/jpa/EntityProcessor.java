@@ -3,6 +3,7 @@ package net.trajano.apt.jpa;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
@@ -12,6 +13,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.persistence.Entity;
+import javax.tools.Diagnostic.Kind;
 
 import net.trajano.apt.jpa.internal.MetaTableModule;
 import net.trajano.apt.jpa.internal.TableModuleGenerator;
@@ -23,6 +25,14 @@ import net.trajano.apt.jpa.internal.TableModuleGenerator;
 @SupportedAnnotationTypes("javax.persistence.Entity")
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class EntityProcessor extends AbstractProcessor {
+    /**
+     * Logger.
+     */
+    private static final Logger LOG = Logger.getLogger("net.trajano.apt.jpa");
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean process(final Set<? extends TypeElement> annotations,
             final RoundEnvironment roundEnv) {
@@ -41,7 +51,10 @@ public class EntityProcessor extends AbstractProcessor {
                 w.write(generator.generate(tableModule));
                 w.close();
             } catch (final IOException e) {
-                e.printStackTrace();
+                processingEnv.getMessager().printMessage(Kind.ERROR,
+                        e.getMessage(), element);
+                LOG.throwing(getClass().getName(), "process", e);
+                return false;
             }
         }
         return true;
