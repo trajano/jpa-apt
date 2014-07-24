@@ -227,9 +227,15 @@ public class MockTest {
         when(namedQueryWithParam.query()).thenReturn(
                 "select * from dual where foo = :nyaa");
 
+        final NamedQuery namedQueryWithTwoParam = mock(NamedQuery.class);
+        when(namedQueryWithTwoParam.name()).thenReturn("Foo.barParam");
+        when(namedQueryWithTwoParam.query()).thenReturn(
+                "select * from dual where foo = :nyaa and bar = :cat");
+
         final NamedQueries namedQueries = mock(NamedQueries.class);
         when(namedQueries.value()).thenReturn(
-                new NamedQuery[] { namedQueryNoParam, namedQueryWithParam });
+                new NamedQuery[] { namedQueryNoParam, namedQueryWithParam,
+                        namedQueryWithTwoParam });
         final TypeElement entityElement = mock(TypeElement.class);
         when(entityElement.getEnclosingElement()).thenReturn(packageElement);
         when(entityElement.getQualifiedName()).thenReturn(entityQualifiedName);
@@ -282,21 +288,6 @@ public class MockTest {
                 new HashSet<Modifier>(Arrays.asList(Modifier.PUBLIC)));
         when(dontAddElement.getSimpleName()).thenReturn(
                 extraOperationElementName);
-        when(dontAddElement.getParameters()).thenAnswer(
-                new Answer<List<? extends VariableElement>>() {
-
-                    @Override
-                    public List<? extends VariableElement> answer(
-                            final InvocationOnMock invocation) throws Throwable {
-                        final TypeMirror entityManagerParameterType = mock(TypeMirror.class);
-                        when(entityManagerParameterType.toString()).thenReturn(
-                                "javax.persistence.EntityManager");
-                        final VariableElement entityManagerParameter = mock(VariableElement.class);
-                        when(entityManagerParameter.asType()).thenReturn(
-                                entityManagerParameterType);
-                        return Arrays.asList(entityManagerParameter);
-                    }
-                });
 
         final ExecutableElement dontAddElement2 = mock(ExecutableElement.class);
         when(dontAddElement2.getKind()).thenReturn(ElementKind.METHOD);
