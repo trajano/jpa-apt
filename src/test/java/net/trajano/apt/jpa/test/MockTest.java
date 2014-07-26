@@ -105,6 +105,7 @@ public class MockTest {
         assertTrue(writer.toString().startsWith("package"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testIOExceptionEnvironment() {
         final Name packageName = mock(Name.class);
@@ -185,7 +186,7 @@ public class MockTest {
 
                         final TypeMirror otherParameterType = mock(TypeMirror.class);
                         when(otherParameterType.toString())
-                        .thenReturn("String");
+                                .thenReturn("String");
 
                         final Name otherParameterName = mock(Name.class);
                         when(otherParameterName.toString()).thenReturn(
