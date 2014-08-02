@@ -51,22 +51,16 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.tikal</groupId>
-                <artifactId>tikal-maven-jet-plugin</artifactId>
-                <version>0.4.0</version>
+                <groupId>net.trajano.mojo</groupId>
+                <artifactId>jetng-maven-plugin</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
                 <executions>
                     <execution>
-                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>generate</goal>
+                            <goal>compile</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <includeTemplates>
-                        <include>**/*.jet</include>
-                    </includeTemplates>
-                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
