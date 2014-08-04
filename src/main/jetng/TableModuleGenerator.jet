@@ -9,7 +9,8 @@ import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
 
 /**
- * SLSB to manage {@link <%=arguments.getEntityClassName()%>} using the table model design pattern.
+ * Stateless session bean to manage {@link <%=arguments.getEntityClassName()%>}
+ * using the table module design pattern.
  */
 @Stateless
 public class <%=arguments.getClassName()%> {
@@ -75,7 +76,7 @@ public class <%=arguments.getClassName()%> {
      * needed to ensure that the temporal data contains the proper values.
      * 
      * @param bean
-     *            bean to persist.
+     *            bean to persist
      */
     public void save(final <%=arguments.getEntityClassName()%> bean) {
         em.persist(bean);
@@ -87,7 +88,7 @@ public class <%=arguments.getClassName()%> {
      * Removes the bean from the persistence.
      * 
      * @param bean
-     *            bean to remove.
+     *            bean to remove
      */
     public void remove(final <%=arguments.getEntityClassName()%> bean) {
         em.persist(bean);
@@ -98,7 +99,7 @@ public class <%=arguments.getClassName()%> {
      * Injects the entity manager for testing.
      * 
      * @param entityManager
-     *            entity manager.
+     *            entity manager
      */
     public void setEntityManager(final EntityManager entityManager) {
         em = entityManager;
